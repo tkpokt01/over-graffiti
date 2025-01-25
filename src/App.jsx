@@ -34,8 +34,14 @@ function App() {
 
         const tx = await contract.writeMessage(message);
         //alert('Transaction sent: ' + JSON.stringify(tx));
-        await tx.wait();
-        alert('Your message has been placed On-Chain on OverProtocol!');
+        
+        // Wait for the transaction to be confirmed
+      const receipt = await tx.wait();
+
+      // Get the transaction hash
+      const txHash = receipt.hash; // Declare and initialize txHash
+        
+      alert('Your message has been placed On-Chain on OverProtocol!');
  
       const txLink = `https://scan.over.network/tx/${txHash}`;
       // Show a confirmation popup
