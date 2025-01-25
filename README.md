@@ -1,3 +1,7 @@
+![Uploading over-graffiti.png…]()
+
+
+
 Over-Graffiti is a very simple dapp on OverProtocol, an L1 mainnet protocol implemented with Ethanos state size reduction mechanism.
 
 
