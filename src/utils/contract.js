@@ -97,6 +97,6 @@ const contractABI = [
 	}
  ];
 
-export const getContract = (provider) => {
-    return new ethers.Contract(contractAddress, contractABI, provider.getSigner());
-};
+ export const getContract = (signer) => {
+	return new ethers.Contract(contractAddress, contractABI, signer);
+  };
