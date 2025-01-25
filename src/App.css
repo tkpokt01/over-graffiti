@@ -7,7 +7,7 @@ body, html {
   }
   
   .app-container {
-    background-image: url('/assets/imageby-Retona16.png'); /* Use the imported image */
+    background-image: url('./assets/imageby-Retona16.png'); /* Updated image */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
