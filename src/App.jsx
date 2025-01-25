@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { getContract } from './utils/contract';
-import backgroundImage from './assets/imageby-Retona16.png'; // Import the image
+//import backgroundImage from './assets/imageby-Retona16.png';
 import './App.css'; // Import the CSS file
 
 function App() {
