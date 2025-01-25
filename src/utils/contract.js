@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 
-const contractAddress = '0xa3bd22f59065d49da39c7b99c3bd0d5f3dca93f8';
-const contractABI = [ [
+const contractAddress = '0xA3Bd22f59065D49dA39C7b99C3BD0D5f3DcA93F8';
+const contractABI = [ 
 	{
 		"anonymous": false,
 		"inputs": [
@@ -95,7 +95,7 @@ const contractABI = [ [
 		"stateMutability": "view",
 		"type": "function"
 	}
-] ];
+ ];
 
 export const getContract = (provider) => {
     return new ethers.Contract(contractAddress, contractABI, provider.getSigner());
