@@ -7,6 +7,7 @@ import './App.css'; // Import the CSS file
 function App() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   //useEffect(() => {
   //  if (window.ethereum) {
@@ -87,6 +88,21 @@ function App() {
       </div>
       </center>
       
+    </div>
+  );
+  return (
+    <div className="app-container">
+      <div className="message-box">
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Enter your message (no links allowed)"
+        />
+        <button onClick={handleWriteOnWall} disabled={loading}>
+          {loading ? 'Sending...' : 'Write on Wall'}
+        </button>
+        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+      </div>
     </div>
   );
 }
