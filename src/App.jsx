@@ -46,7 +46,7 @@ function App() {
  
       const txLink = `https://scan.over.network/tx/${txHash}`;
       // Show a confirmation popup
-      const shouldOpenLink = window.confirm('Transaction successful! Click OK to view the transaction on Over Network Scan.');
+      const shouldOpenLink = window.confirm('Transaction successful! Click OK to view the transaction on Over Network Scan. Please unblock popups if you are unable to view the transaction.');
       if (shouldOpenLink) {
         window.open(txLink, '_blank'); // Open the link in a new window
       }
@@ -90,21 +90,7 @@ function App() {
       
     </div>
   );
-  return (
-    <div className="app-container">
-      <div className="message-box">
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Enter your message (no links allowed)"
-        />
-        <button onClick={handleWriteOnWall} disabled={loading}>
-          {loading ? 'Sending...' : 'Write on Wall'}
-        </button>
-        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-      </div>
-    </div>
-  );
+ 
 }
 
 export default App;
