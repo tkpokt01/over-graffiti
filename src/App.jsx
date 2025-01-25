@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers'; // Correct import
+import { ethers } from 'ethers';
 import { getContract } from './utils/contract';
 
 function App() {
   const [message, setMessage] = useState('');
 
+  // useEffect to connect to MetaMask when the component mounts
   useEffect(() => {
-    alert('App component mounted');
-  }, []);
+    if (window.ethereum) {
+      window.ethereum.request({ method: 'eth_requestAccounts' })
+        .then(accounts => {
+          alert('Connected account: ' + accounts[0]); // Debugging alert
+        })
+        .catch(error => {
+          alert('Error connecting to MetaMask: ' + error.message); // Debugging alert
+        });
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const handleWriteOnWall = async () => {
     alert('handleWriteOnWall called');
@@ -15,9 +24,10 @@ function App() {
       try {
         alert('MetaMask is installed');
 
-        // Correct usage of ethers.providers.Web3Provider
+        // Initialize the provider and signer
         const provider = new ethers.BrowserProvider(window.ethereum); // Updated for ethers v6
-        const contract = getContract(provider);
+        const signer = await provider.getSigner(); // Get the signer
+        const contract = getContract(signer); // Pass the signer instead of the provider
 
         alert('Contract instance created');
 
