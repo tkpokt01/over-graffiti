@@ -2,48 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { getContract } from './utils/contract';
 
-
-useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.request({ method: 'eth_requestAccounts' })
-        .then(accounts => {
-          console.log('Connected account:', accounts[0]); // Debugging log
-        })
-        .catch(error => {
-          console.error('Error connecting to MetaMask:', error); // Debugging log
-        });
-    }
-  }, []);
-  
-
 function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    console.log('App component mounted'); // Debugging log
+    alert('App component mounted'); // Debugging alert
   }, []);
 
   const handleWriteOnWall = async () => {
-    console.log('handleWriteOnWall called'); // Debugging log
+    alert('handleWriteOnWall called'); // Debugging alert
     if (window.ethereum) {
       try {
-        console.log('MetaMask is installed'); // Debugging log
+        alert('MetaMask is installed'); // Debugging alert
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const contract = getContract(provider);
 
-        console.log('Contract instance created'); // Debugging log
+        alert('Contract instance created'); // Debugging alert
 
         // Send transaction
         const tx = await contract.writeMessage(message);
-        console.log('Transaction sent:', tx); // Debugging log
+        alert('Transaction sent: ' + JSON.stringify(tx)); // Debugging alert
         await tx.wait();
         alert('Message written on the wall!');
       } catch (error) {
-        console.error('Error in handleWriteOnWall:', error); // Debugging log
-        alert('Error writing message: ' + error.message);
+        alert('Error in handleWriteOnWall: ' + error.message); // Debugging alert
       }
     } else {
-      console.log('MetaMask is not installed'); // Debugging log
       alert('Please install MetaMask!');
     }
   };
