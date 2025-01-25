@@ -37,13 +37,13 @@ function App() {
         await tx.wait();
         alert('Your message has been placed On-Chain on OverProtocol!');
  
-
+      const txLink = `https://scan.over.network/tx/${txHash}`;
       // Show a confirmation popup
       const shouldOpenLink = window.confirm('Transaction successful! Click OK to view the transaction on Over Network Scan.');
       if (shouldOpenLink) {
-        console.log('Opening transaction link:', txLink); // Debugging log
         window.open(txLink, '_blank'); // Open the link in a new window
       }
+
 
       // Clear the message input box
       setMessage('');
