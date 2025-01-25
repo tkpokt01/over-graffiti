@@ -7,16 +7,16 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000; /* Optional: Add a background color for the remaining 15% */
+  background-color: #000; /* Optional: Add a background color for the remaining space */
 }
 
 .app-container {
   background-image: url('./assets/retona16.png'); /* Directly reference the image */
-  background-size: cover;
+  background-size: contain; /* Maintain aspect ratio */
   background-position: center;
   background-repeat: no-repeat;
-  height: 85vh; /* 85% of the viewport height */
-  width: 85vw; /* 85% of the viewport width */
+  height: 100vh; /* 85% of the viewport height */
+  width: 100vw; /* 85% of the viewport width */
   display: flex;
   justify-content: center;
   align-items: flex-end;
