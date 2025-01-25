@@ -30,7 +30,7 @@ function App() {
         const signer = await provider.getSigner();
         const contract = getContract(signer);
 
-        alert('Waiting for Transaction to be complted');
+        //alert('Waiting for Transaction to be complted');
 
         const tx = await contract.writeMessage(message);
         //alert('Transaction sent: ' + JSON.stringify(tx));
@@ -38,23 +38,23 @@ function App() {
         alert('Your message has been placed On-Chain on OverProtocol!');
  
 
-      const shouldOpenLink = window.confirm('To view your On-Chain Graffiti! Click OK to view the transaction on Over Network Scan.');
+      // Show a confirmation popup
+      const shouldOpenLink = window.confirm('Transaction successful! Click OK to view the transaction on Over Network Scan.');
       if (shouldOpenLink) {
-        window.open(txLink, '_blank');
+        console.log('Opening transaction link:', txLink); // Debugging log
+        window.open(txLink, '_blank'); // Open the link in a new window
       }
 
       // Clear the message input box
       setMessage('');
 
+      // Show a success message
+      setSuccessMessage('Message sent successfully!');
 
-       // Get the transaction hash
-       const txHash = receipt.hash;
-
-      // Create the transaction link
-      const txLink = `https://scan.over.network/tx/${txHash}`;
-
- // Open the transaction link in a new window
-      window.open(txLink, '_blank');
+      // Clear the success message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
 
 
       } catch (error) {
