@@ -8,34 +8,34 @@ function App() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.request({ method: 'eth_requestAccounts' })
-        .then(accounts => {
-          alert('Connected account: ' + accounts[0]);
-        })
-        .catch(error => {
-          alert('Error connecting to MetaMask: ' + error.message);
-        });
-    }
-  }, []);
+  //useEffect(() => {
+  //  if (window.ethereum) {
+  //    window.ethereum.request({ method: 'eth_requestAccounts' })
+  //      .then(accounts => {
+  //        alert('Connected account: ' + accounts[0]);
+  //      })
+  //      .catch(error => {
+  //        alert('Error connecting to MetaMask: ' + error.message);
+  //      });
+  //  }
+ // }, []);
 
   const handleWriteOnWall = async () => {
     if (window.ethereum) {
       try {
         setLoading(true);
-        alert('handleWriteOnWall called');
+        //alert('handleWriteOnWall called');
 
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         const contract = getContract(signer);
 
-        alert('Contract instance created');
+        alert('Waiting for Transaction to be complted');
 
         const tx = await contract.writeMessage(message);
-        alert('Transaction sent: ' + JSON.stringify(tx));
+        //alert('Transaction sent: ' + JSON.stringify(tx));
         await tx.wait();
-        alert('Your message has been placed On-Chain on OverProtoco!');
+        alert('Your message has been placed On-Chain on OverProtocol!');
  
 
       const shouldOpenLink = window.confirm('To view your On-Chain Graffiti! Click OK to view the transaction on Over Network Scan.');
