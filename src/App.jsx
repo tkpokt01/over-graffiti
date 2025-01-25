@@ -68,8 +68,7 @@ function App() {
   };
 
   return (
-    <center><div className="app-container">
-        <h1>Over Graffiti Wall</h1>
+    <div className="app-container"><center>
       <div className="message-box">
         <textarea
           value={message}
@@ -80,8 +79,9 @@ function App() {
           {loading ? 'Sending...' : 'Write on Wall'}
         </button>
       </div>
+      </center>
       
-    </div></center>
+    </div>
   );
 }
 
