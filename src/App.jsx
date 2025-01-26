@@ -4,22 +4,24 @@ import { getContract } from './utils/contract';
 import backgroundImage from './assets/retona16.png';
 import './App.css'; // Import the CSS file
 
+const containsLink = (text) => {
+  // Regular expression to match common link patterns
+  const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.co|\.ai|\.dev)/i;
+  return linkPattern.test(text);
+};
+
+
 function App() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  //useEffect(() => {
-  //  if (window.ethereum) {
-  //    window.ethereum.request({ method: 'eth_requestAccounts' })
-  //      .then(accounts => {
-  //        alert('Connected account: ' + accounts[0]);
-  //      })
-  //      .catch(error => {
-  //        alert('Error connecting to MetaMask: ' + error.message);
-  //      });
-  //  }
- // }, []);
+  if (containsLink(message)) {
+    alert('Messages cannot contain internet links. Please remove any links and try again.');
+    return; // Stop the function if links are found
+  }
+
+  setLoading(true);
 
   const handleWriteOnWall = async () => {
     if (window.ethereum) {
