@@ -4,11 +4,6 @@ import { getContract } from './utils/contract';
 import backgroundImage from './assets/retona16.png';
 import './App.css'; // Import the CSS file
 
-const containsLink = (text) => {
-  // Regular expression to match common link patterns
-  const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.co|\.ai|\.dev)/i;
-  return linkPattern.test(text);
-};
 
 
 function App() {
@@ -16,16 +11,22 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  if (containsLink(message)) {
-    alert('Messages cannot contain internet links. Please remove any links and try again.');
-    return; // Stop the function if links are found
-  }
+  const containsLink = (text) => {
+    // Regular expression to match common link patterns
+    const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.co|\.ai|\.dev)/i;
+    return linkPattern.test(text);
+  };
 
-  setLoading(true);
+  
 
   const handleWriteOnWall = async () => {
     if (window.ethereum) {
       try {
+
+        if (containsLink(message)) {
+          alert('Messages cannot contain internet links. Please remove any links and try again.');
+          return; // Stop the function if links are found
+        }
         setLoading(true);
         //alert('handleWriteOnWall called');
 
