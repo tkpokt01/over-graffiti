@@ -47,10 +47,9 @@ function App() {
         
       alert('Your message has been placed On-Chain on OverProtocol!');
  
-      //const txLink = `https://scan.over.network/tx/${txHash}`;
-      const txlink = 'https://seegraffitiwall.vercel.app'; 
+      const txLink = `https://scan.over.network/tx/${txHash}`;
       // Show a confirmation popup
-      const shouldOpenLink = window.confirm('Now see what others have painted! Please unblock popups if you are unable to view the transaction.');
+      const shouldOpenLink = window.confirm('Transaction successful! Click OK to view the transaction on Over Network Scan. Please unblock popups if you are unable to view the transaction.');
       if (shouldOpenLink) {
         window.open(txLink, '_blank'); // Open the link in a new window
       }
