@@ -13,7 +13,7 @@ function App() {
 
   const containsLink = (text) => {
     // Regular expression to match common link patterns
-    const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.co|\.ai|\.dev)/i;
+    const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.co|\.ai|\.dev\.app\.xyz)/i;
     return linkPattern.test(text);
   };
 
