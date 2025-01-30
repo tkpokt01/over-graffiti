@@ -1,106 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import Web3Modal from 'web3modal';
-import WalletConnectProvider from '@walletconnect/web3-provider';
 import { getContract } from './utils/contract';
 import backgroundImage from './assets/retona16.png';
-import './App.css';
+import './App.css'; // Import the CSS file
+
+
 
 function App() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-  const [account, setAccount] = useState(null);
-  const [provider, setProvider] = useState(null);
-  const [contract, setContract] = useState(null);
 
   const containsLink = (text) => {
-    const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.co|\.ai|\.dev|\.app|\.xyz)/i;
+    // Regular expression to match common link patterns
+    const linkPattern = /(https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.co|\.ai|\.dev\.app\.xyz)/i;
     return linkPattern.test(text);
   };
 
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' },
-      },
-    },
-  };
-
-  const connectWallet = async () => {
-    try {
-      const web3Modal = new Web3Modal({ cacheProvider: true, providerOptions });
-      const instance = await web3Modal.connect();
-      const web3Provider = new ethers.BrowserProvider(instance);
-      const signer = await web3Provider.getSigner();
-      const userAddress = await signer.getAddress();
-      
-      setProvider(web3Provider);
-      setAccount(userAddress);
-      setContract(getContract(signer));
-    } catch (error) {
-      console.error('Wallet connection failed:', error);
-    }
-  };
-
-  const disconnectWallet = async () => {
-    const web3Modal = new Web3Modal();
-    web3Modal.clearCachedProvider();
-    setAccount(null);
-    setProvider(null);
-    setContract(null);
-  };
+  
 
   const handleWriteOnWall = async () => {
-    if (!contract) {
-      alert('Please connect your wallet first!');
-      return;
-    }
+    if (window.ethereum) {
+      try {
 
-    if (containsLink(message)) {
-      alert('Messages cannot contain internet links. Please remove any links and try again.');
-      return;
-    }
+        if (containsLink(message)) {
+          alert('Messages cannot contain internet links. Please remove any links and try again.');
+          return; // Stop the function if links are found
+        }
+        setLoading(true);
+        //alert('handleWriteOnWall called');
 
-    try {
-      setLoading(true);
-      const tx = await contract.writeMessage(message);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const contract = getContract(signer);
+
+        //alert('Waiting for Transaction to be complted');
+
+        const tx = await contract.writeMessage(message);
+        //alert('Transaction sent: ' + JSON.stringify(tx));
+        
+        // Wait for the transaction to be confirmed
       const receipt = await tx.wait();
-      const txHash = receipt.hash;
-      
+
+      // Get the transaction hash
+      const txHash = receipt.hash; // Declare and initialize txHash
+        
       alert('Your message has been placed On-Chain on OverProtocol!');
-      window.open(`https://scan.over.network/tx/${txHash}`, '_blank');
+ 
+      const txLink = `https://scan.over.network/tx/${txHash}`;
+      // Show a confirmation popup
+      const shouldOpenLink = window.confirm('Transaction successful! Click OK to view the transaction on Over Network Scan. Please unblock popups if you are unable to view the transaction.');
+      if (shouldOpenLink) {
+        window.open(txLink, '_blank'); // Open the link in a new window
+      }
+
+
+      // Clear the message input box
       setMessage('');
+
+      // Show a success message
       setSuccessMessage('Message sent successfully!');
-      setTimeout(() => setSuccessMessage(''), 3000);
-    } catch (error) {
-      alert('Error in handleWriteOnWall: ' + error.message);
-    } finally {
-      setLoading(false);
+
+      // Clear the success message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
+
+
+      } catch (error) {
+        alert('Error in handleWriteOnWall: ' + error.message);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert('Please install MetaMask!');
     }
   };
 
   return (
-    <div className="app-container">
-      <center>
-        <button onClick={account ? disconnectWallet : connectWallet} className="connect-btn">
-          {account ? `Connected: ${account.slice(0, 6)}...${account.slice(-4)}` : 'Connect Wallet'}
+    <div className="app-container"><center>
+      <div className="message-box">
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Enter your message (no links allowed)"
+        />
+        <button onClick={handleWriteOnWall} disabled={loading}>
+          {loading ? 'Sending...' : 'Write on Wall'}
         </button>
-        <div className="message-box">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Enter your message (no links allowed)"
-          />
-          <button onClick={handleWriteOnWall} disabled={loading}>
-            {loading ? 'Sending...' : 'Write on Wall'}
-          </button>
-          {successMessage && <p className="success-message">{successMessage}</p>}
-        </div>
+      </div>
       </center>
+      
     </div>
   );
+ 
 }
 
 export default App;
